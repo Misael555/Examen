@@ -1,0 +1,50 @@
+package hola;
+public class main {
+    public static void main(String[] args) {
+
+        MiTeleferico sistema = new MiTeleferico();
+
+        Linea roja = new Linea("Roja");
+        Linea amarilla = new Linea("Amarilla");
+        Linea verde = new Linea("Verde");
+
+        sistema.agregarLinea(roja);
+        sistema.agregarLinea(amarilla);
+        sistema.agregarLinea(verde);
+
+        sistema.agregarCabina("Roja");
+        sistema.agregarCabina("Roja");
+        sistema.agregarCabina("Amarilla");
+        sistema.agregarCabina("Verde");
+
+        Persona p1 = new Persona("Ana", 20, 55);
+        Persona p2 = new Persona("Luis", 35, 78);
+        Persona p3 = new Persona("Mario", 61, 70);
+        Persona p4 = new Persona("Lucia", 24, 52);
+        Persona p5 = new Persona("Carlos", 45, 90);
+
+        sistema.agregarPersonaFila(p1, "Roja");
+        sistema.agregarPersonaFila(p2, "Roja");
+        sistema.agregarPersonaFila(p3, "Amarilla");
+        sistema.agregarPersonaFila(p4, "Verde");
+        sistema.agregarPersonaFila(p5, "Verde");
+
+        roja.getCabinas().get(0).agregarPersona(p1);
+        roja.getCabinas().get(0).agregarPersona(p2);
+        amarilla.getCabinas().get(0).agregarPersona(p3);
+        verde.getCabinas().get(0).agregarPersona(p4);
+        verde.getCabinas().get(0).agregarPersona(p5);
+
+        
+        System.out.println("Verificación de reglas ");
+        sistema.verificarReglas();
+
+        System.out.println(" Ingreso total del teleférico ");
+        float ingreso = sistema.calcularIngresos();
+        System.out.println("Ingreso total: " + ingreso + " Bs");
+
+        System.out.println("Línea con mayor ingreso REGULAR");
+        String mejorLinea = sistema.lineaMayorIngresoRegular();
+        System.out.println("La línea con mayor ingreso regular es: " + mejorLinea);
+    }
+}
