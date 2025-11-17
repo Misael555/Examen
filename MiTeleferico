@@ -1,0 +1,67 @@
+package examen;
+
+public class MiTeleferico {
+    Linea[] lineas;
+    private float cantidadIngresos;
+
+    public MiTeleferico() {
+        lineas = new Linea[3];
+        lineas[0] = new Linea("Amarillo");
+        lineas[1] = new Linea("Rojo");
+        lineas[2] = new Linea("Verde");
+    }
+
+   
+    public void agregarPersonaFila(Persona p, String linea) {
+        for (Linea l : lineas)
+            if (l.getColor().equalsIgnoreCase(linea))
+                l.agregarPersona(p);
+    }
+
+  
+    public void agregarCabina(String linea, int nro) {
+        for (Linea l : lineas)
+            if (l.getColor().equalsIgnoreCase(linea))
+                l.agregarCabina(nro);
+    }
+
+    
+    public boolean verificarTodasCabinas() {
+        for (Linea l : lineas)
+            if (!l.cabinasCorrectas())
+                return false;
+        return true;
+    }
+
+ 
+    public float calcularIngresos() {
+        float total = 0;
+        for (Linea l : lineas)
+            total += l.getIngresos();
+        setCantidadIngresos(total);
+        return total;
+    }
+
+    
+    public String lineaMasRegular() {
+        String mejor = "";
+        int max = -1;
+
+        for (Linea l : lineas) {
+            int reg = l.contarRegulares();
+            if (reg > max) {
+                max = reg;
+                mejor = l.getColor();
+            }
+        }
+        return mejor;
+    }
+
+	public float getCantidadIngresos() {
+		return cantidadIngresos;
+	}
+
+	public void setCantidadIngresos(float cantidadIngresos) {
+		this.cantidadIngresos = cantidadIngresos;
+	}
+}
