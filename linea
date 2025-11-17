@@ -1,0 +1,96 @@
+package examen;
+public class Linea {
+    private String color;
+    private Persona[] filaPersonas;
+    private Cabina[] cabinas;
+    private int cantidadCabinas;
+
+    public Linea(String color) {
+        this.color = color;
+        filaPersonas = new Persona[50];
+        cabinas = new Cabina[20];
+        cantidadCabinas = 0;
+    }
+
+    public void agregarPersona(Persona p) {
+        for (int i = 0; i < filaPersonas.length; i++) {
+            if (filaPersonas[i] == null) {
+                filaPersonas[i] = p;
+                break;
+            }
+        }
+    }
+
+    public void agregarCabina(int nroCab) {
+        cabinas[cantidadCabinas++] = new Cabina(nroCab);
+    }
+
+    public boolean agregarPrimeroACabina(int nroCabina) {
+        if (filaPersonas[0] == null) return false;
+
+        Persona p = filaPersonas[0];
+
+        // buscar cabina
+        Cabina cab = null;
+        for (int i = 0; i < cantidadCabinas; i++) {
+            if (cabinas[i].nroCabina == nroCabina) {
+                cab = cabinas[i];
+                break;
+            }
+        }
+        if (cab == null) return false;
+
+        if (cab.agregarPersona(p)) {
+            // mover fila
+            for (int i = 0; i < filaPersonas.length - 1; i++)
+                filaPersonas[i] = filaPersonas[i + 1];
+            filaPersonas[filaPersonas.length - 1] = null;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean cabinasCorrectas() {
+        for (int i = 0; i < cantidadCabinas; i++) {
+            if (cabinas[i].getCantidadPersonas() > 10) return false;
+            if (cabinas[i].getPesoTotal() > 850) return false;
+        }
+        return true;
+    }
+
+    //  ingreso total
+    public float getIngresos() {
+        float total = 0;
+
+        for (int i = 0; i < cantidadCabinas; i++) {
+            Cabina c = cabinas[i];
+            for (int j = 0; j < c.personasAbordo.length; j++) {
+                Persona p = c.personasAbordo[j];
+                if (p != null) {
+                    if (p.getEdad() < 25 || p.getEdad() > 60)
+                        total += 1.5;   // preferencial
+                    else
+                        total += 3;     //  regular
+                }
+            }
+        }
+        return total;
+    }
+
+    // tarifa regular
+    public int contarRegulares() {
+        int c = 0;
+        for (int i = 0; i < cantidadCabinas; i++) {
+            Cabina cab = cabinas[i];
+            for (Persona p : cab.personasAbordo) {
+                if (p != null) {
+                    if (p.getEdad() >= 25 && p.getEdad() <= 60)
+                        c++;
+                }
+            }
+        }
+        return c;
+    }
+
+    public String getColor() { return color; }
+}
